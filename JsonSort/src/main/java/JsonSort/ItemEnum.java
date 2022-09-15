@@ -4,15 +4,23 @@ package JsonSort;
  * 並べ替えたい項目として入力された数字をtest.jsonの項目名に変換するenum
  * 
  * @author Harada
- * @version 1.0
+ * @version 1.1
  */
 public enum ItemEnum {
 
 	// ソートしたい項目のenum
-	NO("no", "0"), KURASU("kurasu", "1"), AGE("age", "2"), VAL("val", "3");
+	// 0:番号
+	NO("no", "0"),
+	// 1:クラス
+	KURASU("kurasu", "1"),
+	// 2:年齢
+	AGE("age", "2"),
+	// 3:得点
+	VAL("val", "3");
 
-	// enumの中身
+	// 項目の名前
 	private String itemE;
+	// 項目を指定する数字
 	private String scanE;
 
 	/**
@@ -38,16 +46,18 @@ public enum ItemEnum {
 	}
 
 	/**
-	 * scanに入力された数値に対応する項目をEnumで返すメソッド
+	 * scanに入力された数値に対応する項目をenumで返すメソッド
 	 * 
 	 * @param scanE scanTに入力された文字列
-	 * @return te scanTと一致する文字列を持つenamのインスタンス
+	 * @return te scanTと一致する数字を持つenamのインスタンス
 	 */
 	public static ItemEnum getByScanE(String scanE) {
 
-		for (ItemEnum ie : ItemEnum.values()) { // 拡張for文による走査
+		// 拡張for文による捜索
+		for (ItemEnum ie : ItemEnum.values()) {
 			if (ie.getScanE().equals(scanE)) {
-				return ie; // 条件に一致するインスタンスを返す
+				// 条件に一致するインスタンスを返す
+				return ie;
 			}
 		}
 		// 見つからなかったら例外処理にかける

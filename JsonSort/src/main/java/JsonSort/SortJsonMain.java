@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * test.jsonをJavaでソートするプログラム
  * 
  * @author Harada
- * @version 1.0
+ * @version 1.1
  */
 public class SortJsonMain {
 
@@ -34,23 +34,23 @@ public class SortJsonMain {
 				// ソートする項目の選択
 				System.out.println("並べ替えたい項目は何ですか？　(helpでアプリの説明を表示、endでアプリを終了します)\n0:番号　1:クラス　2:年齢　3:点数");
 				// endではないなら文字列を受け取る
-				String scanT = endCheck(scanner.next());
+				String scanI = checkEndMessage(scanner.next());
 
 				// ヘルプの表示
-				if ("help".equals(scanT)) {
-					help();
+				if ("help".equals(scanI)) {
+					showHelpMessage();
 					continue;
 				}
 
 				// 入力された番号をenumに渡してからdatasの項目名に復号
-				ItemEnum input = ItemEnum.getByScanE(scanT);
+				ItemEnum input = ItemEnum.getByScanE(scanI);
 				// キャッチされなければ脱出
 				sv.setItem(input.getItemE());
 				break;
 
 				// キャッチとエラー表示
 			} catch (NullPointerException e) {
-				error();
+				showErrorMessage();
 				continue;
 			}
 		}
@@ -61,15 +61,15 @@ public class SortJsonMain {
 				// ソート順の選択
 				System.out.println("並替種別を選択してください　(endでアプリを終了します)\n0:昇順　1:降順");
 				// endではないなら文字列を受け取る
-				String scanU = endCheck(scanner.next());
+				String scanO = checkEndMessage(scanner.next());
 
-				sv.setOrder(scanU);
+				sv.setOrder(scanO);
 				// キャッチされなければ脱出
 				break;
 
 				// キャッチとエラー表示
 			} catch (NumberFormatException e) {
-				error();
+				showErrorMessage();
 				continue;
 			}
 		}
@@ -113,7 +113,7 @@ public class SortJsonMain {
 	 * @param scan scanTに入力された文字列
 	 * @return scan scanTに入力された文字列（endでは無かったならそのまま返す）
 	 */
-	private static String endCheck(String scan) {
+	private static String checkEndMessage(String scan) {
 		if ("end".equals(scan)) {
 			System.out.print("アプリを終了します。お疲れさまでした。");
 			// 強制終了
@@ -126,7 +126,7 @@ public class SortJsonMain {
 	/**
 	 * 入力が"help"ならメッセージを出力する
 	 */
-	private static void help() {
+	private static void showHelpMessage() {
 		System.out.println("このアプリは、JSON形式のファイルの情報を、入力キーを元に並べ替えて結果を表示します。\n");
 		return;
 	}
@@ -134,7 +134,7 @@ public class SortJsonMain {
 	/**
 	 * 入力が不正な値ならメッセージを出力する
 	 */
-	private static void error() {
+	private static void showErrorMessage() {
 		System.out.println("入力情報が不正です。\n");
 		return;
 	}
