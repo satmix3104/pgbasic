@@ -15,7 +15,7 @@ public enum ItemEnum {
 	KURASU("kurasu", "1"),
 	// 2:年齢
 	AGE("age", "2"),
-	// 3:得点
+	// 3:点数
 	VAL("val", "3");
 
 	// 項目の名前
