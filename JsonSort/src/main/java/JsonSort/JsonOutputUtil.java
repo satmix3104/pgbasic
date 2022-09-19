@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * ソートした結果をコンソールに出力し、jsonファイルをダウンロードするクラス
  * 
  * @author Harada
- * @version 1.0
+ * @version 1.1
  */
 public class JsonOutputUtil {
 
@@ -39,7 +39,7 @@ public class JsonOutputUtil {
 		ArrayNode temp = mapper.createArrayNode();
 
 		// 表の頭
-		System.out.println("\n番号　名前　　　　　　クラス　年齢　点数");
+		System.out.println("\n番号  名前            クラス  年齢   点数");
 		// 表の中身
 		for (int i = 0; i < sortList.size(); i++) { // sortListのi番目の値と一致するjsonを探す
 			for (JsonNode j : json.get("datas")) { // 拡張forでjsonを1つずつ調べる
@@ -50,7 +50,7 @@ public class JsonOutputUtil {
 					System.out.printf("%4s  ", j.get("no").asText());
 					System.out.print(format(j.get("name").asText(), 16));
 					// for (int na = 8 - (j.get("name").asText().length()); na > 0; na--) {
-					// System.out.print(" ");
+					// System.out.print("  ");
 					// }
 					System.out.printf("%-7s", j.get("kurasu").asText());
 					System.out.printf("%2s歳  ", j.get("age").asText());
@@ -105,6 +105,8 @@ public class JsonOutputUtil {
 			orderstr = "asc";
 		} else if (order == 1) {
 			orderstr = "desc";
+		} else {
+			orderstr = "err";
 		}
 
 		Calendar cl = Calendar.getInstance(); // 日付
@@ -126,7 +128,7 @@ public class JsonOutputUtil {
 			writer.write(strRes); // resultをjsonにファイルに記入
 
 			// 正常にjsonを出力した報告
-			System.out.print("\n" + name + "を、/Downloads に出力しました");
+			System.out.println("\n" + name + "を、/Downloads に出力しました");
 
 			// キャッチ
 		} catch (FileNotFoundException e) {

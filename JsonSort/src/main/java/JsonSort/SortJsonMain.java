@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * test.jsonをJavaでソートするプログラム
  * 
  * @author Harada
- * @version 1.1
+ * @version 1.2
  */
 public class SortJsonMain {
 
@@ -32,25 +32,24 @@ public class SortJsonMain {
 		while (true) {
 			try {
 				// ソートする項目の選択
-				System.out.println("並べ替えたい項目は何ですか？　(helpでアプリの説明を表示、endでアプリを終了します)\n0:番号　1:クラス　2:年齢　3:点数");
-				// endではないなら文字列を受け取る
-				String scanI = checkEndMessage(scanner.next());
+				System.out.println("並べ替えたい項目は何ですか？　(helpでアプリの説明を表示、exitでアプリを終了します)\n0:番号　1:クラス　2:年齢　3:点数");
+				// exitではないなら文字列を受け取る
+				String scanI = checkExitMessage(scanner.next());
 
 				// ヘルプの表示
-				if ("help".equals(scanI)) {
+				if ("help".equalsIgnoreCase(scanI)) {
 					showHelpMessage();
 					continue;
 				}
 
 				// 入力された番号をenumに渡してからdatasの項目名に復号
-				ItemEnum input = ItemEnum.getByScanE(scanI);
+				ItemEnum input = ItemEnum.getByItemNo(scanI);
 				// キャッチされなければ脱出
-				sv.setItem(input.getItemE());
+				sv.setItem(input.getItem());
 				break;
 
 				// キャッチとエラー表示
-			} catch (NullPointerException e) {
-				showErrorMessage();
+			} catch (IllegalArgumentException e) {
 				continue;
 			}
 		}
@@ -59,17 +58,16 @@ public class SortJsonMain {
 		while (true) {
 			try {
 				// ソート順の選択
-				System.out.println("並替種別を選択してください　(endでアプリを終了します)\n0:昇順　1:降順");
-				// endではないなら文字列を受け取る
-				String scanO = checkEndMessage(scanner.next());
+				System.out.println("並替種別を選択してください　(exitでアプリを終了します)\n0:昇順　1:降順");
+				// exitではないなら文字列を受け取る
+				String scanO = checkExitMessage(scanner.next());
 
-				sv.setOrder(scanO);
+				sv.setToOrder(scanO);
 				// キャッチされなければ脱出
 				break;
 
 				// キャッチとエラー表示
-			} catch (NumberFormatException e) {
-				showErrorMessage();
+			} catch (IllegalArgumentException e) {
 				continue;
 			}
 		}
@@ -77,8 +75,7 @@ public class SortJsonMain {
 
 		// ソートを実行する準備
 		ArrayList<String> sortList = new ArrayList<String>();
-		SortItemUtil si = new SortItemUtil();
-
+		
 		try {
 			// ファイル読み込み
 			String path = "JsonSort/src/main/resources/file/test.json";
@@ -90,36 +87,36 @@ public class SortJsonMain {
 			JsonNode json = mapper.readTree(file);
 
 			// ソートしたい項目を引き抜いたリストを用意する
-			sortList = si.preSort(json, sortList, sv.getItem(), sv.getOrder());
+			sortList = SortItemUtil.preSort(json, sortList, sv.getItem(), sv.getOrder());
 
 			// ソートしたリストを元にして並べ替えたjsonを出力
 			JsonOutputUtil.output(json, sortList, sv.getItem(), sv.getOrder());
 
 			// キャッチ
+		} catch (JsonParseException e) {
+			System.out.println(e);
+		} catch (JsonMappingException e) {
+			System.out.println(e);
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
-		} catch (JsonParseException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			System.out.println(e);
 		}
 	}
 
 	/**
-	 * 入力が"end"ならメッセージを出力して終了させる
+	 * 入力が"exit"ならメッセージを出力して終了させる
 	 * 
-	 * @param scan scanTに入力された文字列
-	 * @return scan scanTに入力された文字列（endでは無かったならそのまま返す）
+	 * @param scan scannerに入力された文字列
+	 * @return scan scannerに入力された文字列（exitでは無かったならそのまま返す）
 	 */
-	private static String checkEndMessage(String scan) {
-		if ("end".equals(scan)) {
-			System.out.print("アプリを終了します。お疲れさまでした。");
+	private static String checkExitMessage(String scan) {
+		if ("exit".equalsIgnoreCase(scan)) {
+			System.out.println("アプリを終了します。お疲れさまでした。");
 			// 強制終了
 			System.exit(0);
 		}
-		// endではないなら処理続行
+		// exitではないなら処理続行
 		return scan;
 	}
 
@@ -128,14 +125,6 @@ public class SortJsonMain {
 	 */
 	private static void showHelpMessage() {
 		System.out.println("このアプリは、JSON形式のファイルの情報を、入力キーを元に並べ替えて結果を表示します。\n");
-		return;
-	}
-
-	/**
-	 * 入力が不正な値ならメッセージを出力する
-	 */
-	private static void showErrorMessage() {
-		System.out.println("入力情報が不正です。\n");
 		return;
 	}
 
