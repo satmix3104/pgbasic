@@ -1,4 +1,4 @@
-package JsonSort;
+package JsonSort.Entity;
 
 /**
  * 並べ替えたい項目として入力された数字をtest.jsonの項目名に変換するenum

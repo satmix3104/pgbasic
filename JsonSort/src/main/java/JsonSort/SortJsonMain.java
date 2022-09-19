@@ -11,6 +11,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import JsonSort.Entity.ItemEnum;
+import JsonSort.Entity.SortVariable;
+import JsonSort.Util.JsonOutputUtil;
+import JsonSort.Util.SortItemUtil;
+
 /**
  * test.jsonをJavaでソートするプログラム
  * 
@@ -75,7 +80,7 @@ public class SortJsonMain {
 
 		// ソートを実行する準備
 		ArrayList<String> sortList = new ArrayList<String>();
-		
+
 		try {
 			// ファイル読み込み
 			String path = "JsonSort/src/main/resources/file/test.json";

@@ -1,4 +1,4 @@
-package JsonSort;
+package JsonSort.Entity;
 
 /**
  * SortTaskで設定するソート項目と昇順降順を返すクラス

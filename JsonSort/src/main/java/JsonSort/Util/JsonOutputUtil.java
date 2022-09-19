@@ -1,4 +1,4 @@
-package JsonSort;
+package JsonSort.Util;
 
 import java.io.BufferedWriter;
 import java.io.File;

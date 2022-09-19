@@ -1,10 +1,12 @@
-package JsonSort;
+package JsonSort.Util;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+import JsonSort.Entity.SortVariable;
 
 /**
  * ソートする項目をリストに取り出し、昇順か降順でソートして返すクラス
