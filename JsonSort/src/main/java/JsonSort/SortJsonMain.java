@@ -20,7 +20,7 @@ import JsonSort.Util.SortItemUtil;
  * test.jsonをJavaでソートするプログラム
  * 
  * @author Harada
- * @version 1.2
+ * @version 1.3
  */
 public class SortJsonMain {
 
@@ -38,14 +38,8 @@ public class SortJsonMain {
 			try {
 				// ソートする項目の選択
 				System.out.println("並べ替えたい項目は何ですか？　(helpでアプリの説明を表示、exitでアプリを終了します)\n0:番号　1:クラス　2:年齢　3:点数");
-				// exitではないなら文字列を受け取る
-				String scanI = checkExitMessage(scanner.next());
-
-				// ヘルプの表示
-				if ("help".equalsIgnoreCase(scanI)) {
-					showHelpMessage();
-					continue;
-				}
+				// helpならメッセージを表示して、helpでもexitでもないなら文字列を受け取る
+				String scanI = checkHelpExitMessage(scanner.next());
 
 				// 入力された番号をenumに渡してからdatasの項目名に復号
 				ItemEnum input = ItemEnum.getByItemNo(scanI);
@@ -110,6 +104,22 @@ public class SortJsonMain {
 	}
 
 	/**
+	 * 入力が"help"ならメッセージを出力する
+	 * 
+	 * @param scan scannerに入力された文字列
+	 * @return checkExitMessage scannerに入力された文字列（helpでもexitでも無かったならそのまま返す）
+	 */
+	private static String checkHelpExitMessage(String scan) {
+		if ("help".equalsIgnoreCase(scan)) {
+			System.out.println("このアプリは、JSON形式のファイルの情報を、入力キーを元に並べ替えて結果を表示します。\n");
+			// continueしたいので例外を呼ぶ
+			throw new IllegalArgumentException();
+		}
+		// helpではないならexitのチェックに進む
+		return checkExitMessage(scan);
+	}
+
+	/**
 	 * 入力が"exit"ならメッセージを出力して終了させる
 	 * 
 	 * @param scan scannerに入力された文字列
@@ -123,14 +133,6 @@ public class SortJsonMain {
 		}
 		// exitではないなら処理続行
 		return scan;
-	}
-
-	/**
-	 * 入力が"help"ならメッセージを出力する
-	 */
-	private static void showHelpMessage() {
-		System.out.println("このアプリは、JSON形式のファイルの情報を、入力キーを元に並べ替えて結果を表示します。\n");
-		return;
 	}
 
 }
