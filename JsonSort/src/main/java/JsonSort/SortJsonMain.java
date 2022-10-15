@@ -1,6 +1,5 @@
 package JsonSort;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import JsonSort.Entity.ItemEnum;
 import JsonSort.Entity.SortVariable;
+import JsonSort.Util.JsonLoadUtil;
 import JsonSort.Util.JsonOutputUtil;
 import JsonSort.Util.SortItemUtil;
 
@@ -20,7 +20,7 @@ import JsonSort.Util.SortItemUtil;
  * test.jsonをJavaでソートするプログラム
  * 
  * @author Harada
- * @version 1.3
+ * @version 1.4
  */
 public class SortJsonMain {
 
@@ -47,7 +47,7 @@ public class SortJsonMain {
 				sv.setItem(input.getItem());
 				break;
 
-				// キャッチとエラー表示
+				// キャッチしたらループ
 			} catch (IllegalArgumentException e) {
 				continue;
 			}
@@ -65,7 +65,7 @@ public class SortJsonMain {
 				// キャッチされなければ脱出
 				break;
 
-				// キャッチとエラー表示
+				// キャッチしたらループ
 			} catch (IllegalArgumentException e) {
 				continue;
 			}
@@ -74,16 +74,12 @@ public class SortJsonMain {
 
 		// ソートを実行する準備
 		ArrayList<String> sortList = new ArrayList<String>();
+		ObjectMapper mapper = new ObjectMapper();
+		// System.out.println(System.getProperty("user.dir"));
 
 		try {
-			// ファイル読み込み
-			String path = "JsonSort/src/main/resources/file/test.json";
-			// System.out.println(System.getProperty("user.dir"));
-			File file = new File(path);
-
-			// json登場!
-			ObjectMapper mapper = new ObjectMapper();
-			JsonNode json = mapper.readTree(file);
+			// jsonファイルを取得
+			JsonNode json = mapper.readTree(JsonLoadUtil.getJsonFile());
 
 			// ソートしたい項目を引き抜いたリストを用意する
 			sortList = SortItemUtil.preSort(json, sortList, sv.getItem(), sv.getOrder());
@@ -92,11 +88,13 @@ public class SortJsonMain {
 			JsonOutputUtil.output(json, sortList, sv.getItem(), sv.getOrder());
 
 			// キャッチ
+		} catch (InterruptedException e) {
+			System.out.println(e);
+		} catch (FileNotFoundException e) {
+			System.out.println(e);
 		} catch (JsonParseException e) {
 			System.out.println(e);
 		} catch (JsonMappingException e) {
-			System.out.println(e);
-		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		} catch (IOException e) {
 			System.out.println(e);
