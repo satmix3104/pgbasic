@@ -7,25 +7,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import jp.co.wiss1.jsonsort.Sortjson;
 
-/**
- * ソートする項目をリストに取り出し、昇順か降順でソートして返すクラス
- * 
- * @version 1.1
- */
+
 public class Itemsort{
 
 	// Comparatorにitemとorderを渡すためのgetter/setter
 	private static Sortjson sv = new Sortjson();
-
-	/**
-	 * 項目ソートした順番を配列で取得する
-	 * 
-	 * @param json     test.jsonの入ったJsonNode
-	 * @param sortList ソートしたい項目を並べ替えるための配列
-	 * @param item     ソートしたい項目
-	 * @param order    ソートする順序
-	 * @return sortList ソートが完了した配列
-	 */
 	public static ArrayList<String> preSort(JsonNode json, ArrayList<String> sortList, final String item, final int order) {
 
 		// 引数をセット
@@ -43,9 +29,6 @@ public class Itemsort{
 		return sortList;
 	}
 
-	/**
-	 * ソートしたい順序にしたがって配列を入れ替える
-	 */
 	private static Comparator<String> Comparator = new Comparator<String>() {
 		@Override
 		public int compare(String o1, String o2) {
