@@ -10,7 +10,6 @@ import jp.co.wiss1.jsonsort.Sortjson;
 /**
  * ソートする項目をリストに取り出し、昇順か降順でソートして返すクラス
  * 
- * @author Harada
  * @version 1.1
  */
 public class Itemsort{
