@@ -73,7 +73,7 @@ public class Jackson {
 		sc.close();
 
 		List<Student> student = new ArrayList<Student>();
-		System.out.printf("番号　　　　名前　　　　クラス　　　　年齢　　　　点数" + "\n");
+		System.out.printf("番号　　名前　　クラス　　年齢　　点数" + "\n");
 
 		try {
 
