@@ -16,52 +16,51 @@ import java.net.http.HttpResponse.BodyHandlers;
  * ソート対象のJsonファイルを、ローカルサーバかローカルフォルダから取得するクラス
  * 
  * @author Harada
- * @version 1.0
+ * @version 1.1
  */
 public class JsonLoadUtil {
 
 	// tomcatのローカルサーバからファイルを取得する時のURI
 	final static String uri = "http://localhost:8080/test.json";
 	// Eclipseのローカルフォルダからファイルを取得する時のパス
-	final static String Path = "JsonSort/src/main/resources/file/test.json";
+	final static String localPath = "JsonSort/src/main/resources/file/test.json";
 
 	/**
 	 * Jsonファイルをローカルサーバから探してきて、読み込んだ文字列を返す
 	 * 
-	 * @return response.body() ローカルサーバから取得したJson文字列
-	 * getLocalFile() ローカルフォルダから取得したJson文字列(サーバ接続に失敗した時に返す)
+	 * @return 取得したJson文字列
+	 * @throws InterruptedException httpClient.sendの例外
+	 * @throws ConnectException     ローカルサーバの接続に失敗した場合の例外
+	 * @throws IOException          jsonファイルの読み込みに失敗した場合の例外
 	 */
-	public static String getJsonFile() throws InterruptedException, FileNotFoundException, IOException {
+	public static String getJsonFile()
+			throws InterruptedException, ConnectException, IOException {
 
-		try {
-			// HttpClientを生成
-			HttpClient httpClient = HttpClient.newBuilder().build();
-			// HttpRequestを生成
-			HttpRequest request = HttpRequest.newBuilder().uri(URI.create(uri)).GET().build();
-			// リクエストを送信
-			HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
-			// HttpStatusを確認して分岐する
-			if (response.statusCode() == 200) {
-				return response.body();
-			} else {
-				System.out.println("サーバからのJsonデータ取得に失敗しました\nローカルからデータを取得します");
-				return getLocalFile();
-			}
-		} catch (ConnectException e) {
-			System.out.println("サーバへの接続に失敗しました\nローカルからデータを取得します");
-			return getLocalFile();
+		// HttpClientを生成
+		HttpClient httpClient = HttpClient.newBuilder().build();
+		// HttpRequestを生成
+		HttpRequest request = HttpRequest.newBuilder().uri(URI.create(uri)).GET().build();
+		// リクエストを送信
+		HttpResponse<String> response = httpClient.send(request, BodyHandlers.ofString());
+		// HttpStatusを確認して分岐する
+		if (response.statusCode() == 200) {
+			return response.body();
+		} else {
+			// リクエストが正常に処理できなかった場合
+			throw new ConnectException();
 		}
-
 	}
 
 	/**
 	 * Jsonファイルをローカルフォルダから探してきて、読み込んだ文字列を返す
 	 * 
-	 * @return getLocalFile() ローカルフォルダから取得したJson文字列
+	 * @return datas ローカルフォルダから取得したJson文字列
+	 * @throws FileNotFoundException 指定したjsonファイルが見つからなかった場合の例外
+	 * @throws IOException           jsonファイルの読み込みに失敗した場合の例外
 	 */
 	public static String getLocalFile() throws FileNotFoundException, IOException {
 		// Jsonファイルを読み込む
-		File file = new File(Path);
+		File file = new File(localPath);
 		// 中身をStringに書き出す
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			String temp = br.readLine();
@@ -73,5 +72,4 @@ public class JsonLoadUtil {
 			return datas;
 		}
 	}
-
 }

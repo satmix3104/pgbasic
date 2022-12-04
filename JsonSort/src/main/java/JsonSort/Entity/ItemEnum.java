@@ -4,40 +4,52 @@ package JsonSort.Entity;
  * 並べ替えたい項目として入力された数字をtest.jsonの項目名に変換するenum
  * 
  * @author Harada
- * @version 1.2
+ * @version 1.3
  */
 public enum ItemEnum {
 
 	// ソートしたい項目のenum
-	// 0:番号
-	NO("no", "0"),
-	// 1:クラス
-	KURASU("kurasu", "1"),
-	// 2:年齢
-	AGE("age", "2"),
-	// 3:点数
-	VAL("val", "3");
+	/** 番号:0 */
+	NO("no", "番号", "0"),
+	/** クラス:1 */
+	KURASU("kurasu", "クラス", "1"),
+	/** 年齢:2 */
+	AGE("age", "年齢", "2"),
+	/** 点数:3 */
+	VAL("val", "点数", "3");
 
-	// 項目の名前
+	// 項目の物理名
 	private String item;
+	// 項目の論理名
+	private String itemName;
 	// 項目を指定する数字
 	private String itemNo;
 
 	/**
 	 * コンストラクタ
 	 */
-	private ItemEnum(String item, String itemNo) {
+	private ItemEnum(String item, String itemName, String itemNo) {
 		this.item = item;
+		this.itemName = itemName;
 		this.itemNo = itemNo;
 	}
 
 	/**
 	 * 並べ替えたい項目をenumから文字列で取得するgetter
 	 * 
-	 * @return item ソートしたい項目の文字列
+	 * @return item ソートしたい項目の英文字列
 	 */
 	public String getItem() {
 		return item;
+	}
+
+	/**
+	 * 並べ替えたい項目をenumから文字列で取得するgetter
+	 * 
+	 * @return itemName ソートしたい項目の日文字列
+	 */
+	public String getItemName() {
+		return itemName;
 	}
 
 	/**
@@ -54,6 +66,7 @@ public enum ItemEnum {
 	 * 
 	 * @param itemNo 並べ替えたい項目に対応する数値の文字列
 	 * @return ie itemNoと一致する数値を持つenamのインスタンス
+	 * @throws IllegalArgumentException 入力されたitemNoを持つEnumが存在しなかった場合の例外
 	 */
 	public static ItemEnum getByItemNo(String itemNo) {
 
