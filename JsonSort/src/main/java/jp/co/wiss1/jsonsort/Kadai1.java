@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -91,6 +92,7 @@ public class Kadai1 {
 		 * 一回目に0～3,二回目に0～1以外の数値が入力された場合、強制終了する。
 		 * 数値以外が入力された場合はjava.util.InputMismatchExceptionが表示される（エラーで強制終了）。
 		 */
+		try {
 		Scanner scanner = new Scanner(System.in);
 		System.out.printf("並び変えたい項目は何ですか？\n");
 		System.out.printf("[0:番号 1:クラス 2:年齢 3:点数] > ");
@@ -116,7 +118,7 @@ public class Kadai1 {
 		 */
 		List<Seito> seito = new ArrayList<Seito>();
 		System.out.printf("番号　名前　　　　　　　クラス　年齢　点数\n");
-		try {
+		
 			ObjectMapper mapper = new ObjectMapper();
 			JsonNode root = mapper.readTree(new File("./src/main/resources/file/test.json"));
 
@@ -212,6 +214,8 @@ public class Kadai1 {
 			 */
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
+		} catch (InputMismatchException ime) {
+			System.out.println("数値以外が入力されたので、強制終了します。");
 		}
 	}
 }
