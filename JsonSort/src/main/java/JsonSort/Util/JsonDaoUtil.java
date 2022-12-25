@@ -23,20 +23,18 @@ public class JsonDaoUtil {
 	// SQL操作
 	final static String url = "jdbc:mysql://localhost/JsonDB?useSSL=false&serverTimezone=Japan&useUnicode=true&characterEncoding=utf8";
 	final static String user = "root";
-	final static byte[] code = { 109, 121, 115, 113, 108 }; // パスワードを文字列で直書きするのもなと思ったので…
+	final static byte[] password = { 109, 121, 115, 113, 108 }; // パスワードを文字列で直書きするのもなと思ったので…
 	final static String insert = "insert into JsonDB.SORT_HISTORY (sort, sortType, addDate) values (?,?,now());";
 	final static String exists = "select id from JsonDB.SORT_HISTORY limit 1;";
 	final static String select = "select * from JsonDB.SORT_HISTORY order by addDate DESC limit 10;";
 
 	/**
 	 * 直近10件分のソート条件を表示するクラス
-	 * 
-	 * @throws SQLException SQL操作に失敗した場合の例外
 	 */
 	public static void showRecord() {
 
 		// データベース接続
-		try (Connection conn = DriverManager.getConnection(url, user, password())) {
+		try (Connection conn = DriverManager.getConnection(url, user, passwordDecryption())) {
 			Statement stat = conn.createStatement();
 			// データが存在するかどうかを確認
 			ResultSet rs = stat.executeQuery(exists);
@@ -69,10 +67,10 @@ public class JsonDaoUtil {
 	 * @param sv ソートした項目と順序
 	 * @throws SQLException SQL操作に失敗した場合の例外
 	 */
-	public static void insertRecord(SortVariable sv) {
+	public static void insertRecord(SortVariable sv) throws SQLException {
 
 		// データベース接続
-		try (Connection conn = DriverManager.getConnection(url, user, password())) {
+		try (Connection conn = DriverManager.getConnection(url, user, passwordDecryption())) {
 			// レコードを登録
 			try (PreparedStatement ps = conn.prepareStatement(insert)) {
 				conn.setAutoCommit(false);
@@ -87,8 +85,6 @@ public class JsonDaoUtil {
 			}
 		} catch (UnsupportedEncodingException e) {
 			System.out.println("パスワードが間違っています。");
-		} catch (SQLException e) {
-			System.out.println(e);
 		}
 	}
 
@@ -98,8 +94,8 @@ public class JsonDaoUtil {
 	 * @return 復号した文字列
 	 * @throws UnsupportedEncodingException byteの復号に失敗した場合の例外
 	 */
-	private static String password() throws UnsupportedEncodingException {
-		return new String(code, "UTF-8");
+	private static String passwordDecryption() throws UnsupportedEncodingException {
+		return new String(password, "UTF-8");
 	}
 
 }

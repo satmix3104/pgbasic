@@ -18,11 +18,14 @@ public enum OrderEnum {
 	private String order;
 	// 項目の論理名
 	private String orderName;
-	// 項目を指定する数字
+	// 項目を指定するID
 	private String orderNo;
 
 	/**
 	 * コンストラクタ
+	 * @param order 項目の物理名
+	 * @param orderName 項目の論理名
+	 * @param orderNo 項目を指定するID
 	 */
 	private OrderEnum(String order, String orderName, String orderNo) {
 		this.order = order;
@@ -56,7 +59,6 @@ public enum OrderEnum {
 	public String getOrderNo() {
 		return orderNo;
 	}
-
 
 	/**
 	 * 渡された文字列の数値に対応する項目をenumで返すメソッド

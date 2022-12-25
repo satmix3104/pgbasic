@@ -40,19 +40,19 @@ public class JsonOutputUtil {
 		// 表の頭
 		System.out.println("\n番号  名前            クラス  年齢   点数");
 		// 表の中身
-		for (int i = 0; i < sortList.size(); i++) { // sortListのi番目の値と一致するjsonを探す
-			for (JsonNode j : json.get("datas")) { // 拡張forでjsonを1つずつ調べる
+		for (String sortOrder : sortList) { // sortListのn番目の値と一致するjsonを探す
+			for (JsonNode jsonData : json.get("datas")) { // 拡張forでjsonを1つずつ調べる
 
-				if (sortList.get(i).equals(j.get(item).asText())) { // JsonNode j の持つ値がsortListの値と一致しているかを確認
+				if (sortOrder.equals(jsonData.get(item).asText())) { // JsonNode j の持つ値がsortListの値と一致しているかを確認
 
 					// jsonをprint
-					System.out.printf("%4s  ", j.get("no").asText());
-					System.out.print(FormatByteUtil.format(j.get("name").asText(), 16, true));
-					System.out.printf("%-7s", j.get("kurasu").asText());
-					System.out.printf("%2s歳  ", j.get("age").asText());
-					System.out.printf("%3s点%n", j.get("val").asText());
+					System.out.printf("%4s  ", jsonData.get("no").asText());
+					System.out.print(FormatByteUtil.format(jsonData.get("name").asText(), 16, true));
+					System.out.printf("%-7s", jsonData.get("kurasu").asText());
+					System.out.printf("%2s歳  ", jsonData.get("age").asText());
+					System.out.printf("%3s点%n", jsonData.get("val").asText());
 
-					temp.add(j); // 並び変えたjsonオブジェクトを作る
+					temp.add(jsonData); // 並び変えたjsonオブジェクトを作る
 					break;
 				}
 			}

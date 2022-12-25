@@ -22,11 +22,14 @@ public enum ItemEnum {
 	private String item;
 	// 項目の論理名
 	private String itemName;
-	// 項目を指定する数字
+	// 項目を指定するID
 	private String itemNo;
 
 	/**
 	 * コンストラクタ
+	 * @param item 項目の物理名
+	 * @param itemName 項目の論理名
+	 * @param itemNo 項目を指定するID
 	 */
 	private ItemEnum(String item, String itemName, String itemNo) {
 		this.item = item;

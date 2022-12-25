@@ -7,7 +7,7 @@ package JsonSort.Entity;
  * @version 0.0
  */
 public class SortBean {
-	
+
 	private String no;
 	private String name;
 	private String kurasu;

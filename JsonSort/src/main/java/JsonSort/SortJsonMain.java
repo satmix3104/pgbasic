@@ -3,6 +3,7 @@ package JsonSort;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.ConnectException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -44,6 +45,7 @@ public class SortJsonMain {
 	 * @throws JsonParseException       jsonファイルの読み込みに失敗した場合の例外
 	 * @throws JsonMappingException     jsonファイルの読み込みに失敗した場合の例外
 	 * @throws IOException              jsonファイルの読み込みに失敗した場合の例外
+	 * @throws SQLException             SQL接続に失敗した場合の例外
 	 */
 	public static void main(String[] args) {
 
@@ -132,6 +134,8 @@ public class SortJsonMain {
 			System.out.println(e);
 		} catch (IOException e) {
 			System.out.println(e);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
